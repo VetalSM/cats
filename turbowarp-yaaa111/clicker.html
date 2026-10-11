@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>КЛИКЕР — яяя111</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 10%,#7044c7,#251047 75%);font:700 18px system-ui,Arial,sans-serif;color:white;display:grid;place-items:center;padding:18px}main{width:min(480px,100%);padding:26px 18px;background:#ffffff1c;border:2px solid #ffffff33;border-radius:26px;text-align:center;box-shadow:0 20px 70px #1206279e}h1{font-size:clamp(28px,7vw,42px);margin:2px 0 16px}.counter{font-size:clamp(25px,6vw,34px);margin:14px}.small{opacity:.85;font-size:15px;margin-bottom:22px}button{font:inherit;border:0;cursor:pointer;touch-action:manipulation;transition:transform .08s,filter .15s}button:active{transform:scale(.94)}#coin{border-radius:100%;width:190px;height:190px;font-size:74px;background:linear-gradient(140deg,#ffe779,#f4a900);box-shadow:0 14px 0 #b87807,0 17px 27px #0008;margin:4px auto 25px;display:block}#upgrade{display:block;margin:6px auto 0;background:#4ee3b3;color:#133c42;border-radius:14px;padding:17px;width:min(350px,100%)}#upgrade:disabled{opacity:.55;cursor:default}#reset{background:transparent;color:#e7d5ff;text-decoration:underline;padding:9px;margin-top:22px;font-size:13px}p{margin:12px 0;color:#e7d5ff;font-weight:500;font-size:14px}
+</style>
+</head>
+<body>
+<main>
+<h1>🎮 КЛИКЕР яяя111</h1>
+<div id="score" class="counter">🪙 0 монет</div>
+<div id="power" class="small">За клик: +1</div>
+<button id="coin" aria-label="Нажать, чтобы получить монеты">🪙</button>
+<button id="upgrade">⬆️ Улучшить за 10 монет</button>
+<p>Кликай по монете и покупай улучшения!</p>
+<button id="reset">Начать заново</button>
+</main>
+<script>
+(()=>{'use strict';
+const storage='yaaa111-clicker-v1';
+let coins=0,power=1,cost=10;
+try{const s=JSON.parse(localStorage.getItem(storage)||'{}');coins=Number(s.coins)||0;power=Math.max(1,Number(s.power)||1);cost=Math.max(10,Number(s.cost)||10)}catch(e){}
+const $=id=>document.getElementById(id);
+function draw(){coins=Math.max(0,Math.floor(coins));$('score').textContent='🪙 '+coins+' монет';$('power').textContent='За клик: +'+power;$('upgrade').textContent='⬆️ Улучшить за '+cost+' монет';$('upgrade').disabled=coins<cost;try{localStorage.setItem(storage,JSON.stringify({coins,power,cost}))}catch(e){}}
+$('coin').addEventListener('click',()=>{coins+=power;draw()});
+$('upgrade').addEventListener('click',()=>{if(coins>=cost){coins-=cost;power+=1;cost=Math.ceil(cost*1.7);draw()}});
+$('reset').addEventListener('click',()=>{if(confirm('Начать кликер заново?')){coins=0;power=1;cost=10;draw()}});
+draw();
+})();
+</script>
+</body>
+</html>
